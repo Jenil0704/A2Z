@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 /* ── Shared animation helpers ── */
-const clipReveal = {
+const clipReveal: Variants = {
   hidden: { clipPath: "inset(100% 0 0 0)", opacity: 0, y: 40 },
   visible: (delay: number) => ({
     clipPath: "inset(0% 0 0 0)",
@@ -12,12 +12,12 @@ const clipReveal = {
     transition: {
       duration: 0.9,
       delay,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
     },
   }),
 };
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (delay: number) => ({
     opacity: 1,
@@ -25,21 +25,21 @@ const fadeUp = {
     transition: {
       duration: 0.8,
       delay,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
     },
   }),
 };
 
-const scaleIn = {
+const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 1.15 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 1.6, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
   },
 };
 
-const overlayFade = {
+const overlayFade: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
