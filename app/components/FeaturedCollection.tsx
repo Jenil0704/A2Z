@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView, Variants } from "framer-motion";
 
-/* ── Shared animation variants ── */
+/* ── Animation variants ── */
 const clipReveal: Variants = {
   hidden: { clipPath: "inset(100% 0 0 0)", opacity: 0, y: 40 },
   visible: (delay: number) => ({
@@ -23,18 +23,8 @@ const fadeUp: Variants = {
   }),
 };
 
-const cardReveal: Variants = {
-  hidden: { opacity: 0, y: 60, scale: 0.96 },
-  visible: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.8, delay, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
-  }),
-};
-
 const imageReveal: Variants = {
-  hidden: { opacity: 0, scale: 1.08 },
+  hidden: { opacity: 0, scale: 1.06 },
   visible: (delay: number) => ({
     opacity: 1,
     scale: 1,
@@ -42,702 +32,361 @@ const imageReveal: Variants = {
   }),
 };
 
-const lineExpand: Variants = {
-  hidden: { scaleX: 0, originX: 0 },
+const smallImageReveal: Variants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
   visible: {
-    scaleX: 1,
-    transition: { duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.8, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
   },
 };
 
+/* ── Data for the two collection blocks ── */
+const collections = [
+  {
+    tag: "Our Curated Edit",
+    heading: "MEN'S LUXURY SUIT COLLECTION",
+    description:
+      "Discover our latest collection of men's luxury suits, featuring premium fabrics, impeccable tailoring, and timeless designs. From classic formal wear to contemporary styles, each piece is crafted to elevate your wardrobe.",
+    cta: "Discover Collection",
+    bigImage: "/suits_formal_wear.jpg",
+    bigImageAlt: "Men's Formal Suits",
+    hoverBigImage: "/formal_top.jpg",
+    smallImage: "/suits_formal_wear.jpg",
+    smallImageAlt: "Suit Detail",
+    hoverSmallImage: "/formal_bottoms.jpeg",
+    layout: "image-left" as const,
+  },
+  // {
+  //   tag: "Premium Menswear",
+  //   heading: "SUITS,\nFORMAL &\nETHNIC WEAR",
+  //   description:
+  //     "From impeccably tailored suits to classic jodhpuri sets, our menswear collection blends modern sophistication with timeless Indian craftsmanship. Every garment is designed to enhance your natural confidence and elevate your style.",
+  //   cta: "Explore Range",
+  //   bigImage: "/suits_formal_wear.jpg",
+  //   bigImageAlt: "Suits & Formal Wear",
+  //   smallImage: "/formal_top.jpg",
+  //   smallImageAlt: "Formal Shirt Detail",
+  //   layout: "image-right" as const,
+  // },
+];
+
 export default function FeaturedCollection() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const section1Ref = useRef<HTMLDivElement>(null);
-  const section2Ref = useRef<HTMLDivElement>(null);
-
-  const headerInView = useInView(headerRef, { once: true, margin: "-60px" });
-  const section1InView = useInView(section1Ref, { once: true, margin: "-80px" });
-  const section2InView = useInView(section2Ref, { once: true, margin: "-80px" });
-
   return (
     <section
-      className="flex flex-col gap-20"
       style={{
         backgroundColor: "var(--color-bg-section)",
-        padding: "clamp(2rem, 4vh, 3.5rem) clamp(1.5rem, 4vw, 4rem)",
+        padding: "clamp(3rem, 6vh, 5rem) clamp(1.5rem, 4vw, 4rem)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "clamp(4rem, 8vh, 7rem)",
       }}
     >
-      {/* ── Header ── */}
-      <div
-        ref={headerRef}
-        style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}
-      >
-        <div>
-          <div style={{ overflow: "hidden" }}>
-            <motion.p
-              variants={clipReveal}
-              initial="hidden"
-              animate={headerInView ? "visible" : "hidden"}
-              custom={0}
-              style={{
-                fontFamily: "var(--font-inter), Inter, sans-serif",
-                fontSize: "clamp(0.6rem, 0.78vw, 0.7rem)",
-                fontWeight: 700,
-                letterSpacing: "0.25em",
-                textTransform: "uppercase",
-                color: "var(--color-text-secondary)",
-                marginBottom: "0.4rem",
-              }}
-            >
-              Our Curated Edit
-            </motion.p>
-          </div>
-          <div style={{ overflow: "hidden" }}>
-            <motion.h2
-              variants={clipReveal}
-              initial="hidden"
-              animate={headerInView ? "visible" : "hidden"}
-              custom={0.15}
-              style={{
-                fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                fontSize: "clamp(1.8rem, 3.5vw, 3rem)",
-                fontWeight: 700,
-                color: "var(--color-text-primary)",
-                letterSpacing: "-0.01em",
-                lineHeight: 1.1,
-                margin: 0,
-              }}
-            >
-              Featured Collection
-            </motion.h2>
-          </div>
+      {collections.map((col, index) => (
+        <CollectionBlock key={index} {...col} />
+      ))}
+    </section>
+  );
+}
 
-          {/* Animated divider */}
-          <motion.div
-            variants={lineExpand}
+function CollectionBlock({
+  tag,
+  heading,
+  description,
+  cta,
+  bigImage,
+  bigImageAlt,
+  hoverBigImage,
+  smallImage,
+  smallImageAlt,
+  hoverSmallImage,
+  layout,
+}: (typeof collections)[number]) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  const imageLeft = layout === "image-left";
+
+  /* Big image block */
+  const bigImageBlock = (
+    <motion.div
+      style={{
+        width: "42%",
+        flexShrink: 0,
+        overflow: "hidden",
+        position: "relative",
+      }}
+      variants={imageReveal}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      custom={0}
+      whileHover="hover"
+    // initial="hidden"
+    >
+      {/* Background Hover Image */}
+      {hoverBigImage && (
+        <motion.img
+          src={hoverBigImage}
+          alt={`Hover ${bigImageAlt}`}
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center top",
+            display: "block",
+            zIndex: 0,
+          }}
+          variants={{
+            hover: { scale: 1.05, transition: { duration: 0.6, ease: "easeOut" } }
+          }}
+        />
+      )}
+
+      {/* Foreground Main Image */}
+      <motion.img
+        src={bigImage}
+        alt={bigImageAlt}
+        style={{
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          minHeight: "60vh",
+          objectFit: "cover",
+          objectPosition: "center top",
+          display: "block",
+          zIndex: 1,
+        }}
+        variants={{
+          hover: { opacity: hoverBigImage ? 0 : 1, transition: { duration: 0.6, ease: "easeIn" } }
+        }}
+      />
+    </motion.div>
+  );
+
+  /* Text + small image block */
+  const contentBlock = (
+    <div
+      style={{
+        width: "58%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        paddingTop: "clamp(1rem, 2vh, 2rem)",
+        paddingBottom: "clamp(1rem, 2vh, 2rem)",
+        gap: "clamp(2rem, 4vh, 3rem)",
+      }}
+    >
+      {/* Top — heading area */}
+      <div
+        style={{
+          paddingLeft: imageLeft ? "clamp(1.5rem, 3vw, 3rem)" : 0,
+          paddingRight: imageLeft ? 0 : "clamp(1.5rem, 3vw, 3rem)",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        {/* Tag */}
+        <div style={{ overflow: "hidden" }}>
+          <motion.p
+            variants={clipReveal}
             initial="hidden"
-            animate={headerInView ? "visible" : "hidden"}
+            animate={isInView ? "visible" : "hidden"}
+            custom={0.15}
             style={{
-              height: "1.5px",
-              backgroundColor: "var(--color-text-secondary)",
-              marginTop: "0.6rem",
-              opacity: 0.15,
+              fontFamily: "var(--font-inter), Inter, sans-serif",
+              fontSize: "clamp(0.6rem, 0.75vw, 0.7rem)",
+              fontWeight: 700,
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+              color: "var(--color-gold)",
+              marginBottom: "clamp(0.75rem, 1.5vh, 1rem)",
             }}
-          />
+          >
+            {tag}
+          </motion.p>
         </div>
+
+        {/* Big heading */}
+        <div style={{ overflow: "hidden" }}>
+          <motion.h2
+            variants={clipReveal}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            custom={0.25}
+            style={{
+              fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
+              fontSize: "clamp(2rem, 4.5vw, 4rem)",
+              fontWeight: 800,
+              color: "var(--color-text-primary)",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.0,
+              margin: 0,
+              textTransform: "uppercase",
+              whiteSpace: "pre-line",
+            }}
+          >
+            {heading}
+          </motion.h2>
+        </div>
+      </div>
+
+      {/* Middle — description + CTA */}
+      <div
+        style={{
+          paddingLeft: imageLeft ? "clamp(1.5rem, 3vw, 3rem)" : 0,
+          paddingRight: imageLeft ? 0 : "clamp(1.5rem, 3vw, 3rem)",
+        }}
+      >
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          custom={0.4}
+          style={{
+            fontFamily: "var(--font-inter), Inter, sans-serif",
+            fontSize: "clamp(0.72rem, 0.88vw, 0.82rem)",
+            lineHeight: 1.85,
+            color: "var(--color-text-secondary)",
+            margin: "0 0 clamp(1.25rem, 2.5vh, 2rem) 0",
+            maxWidth: "420px",
+          }}
+        >
+          {description}
+        </motion.p>
 
         <motion.a
           href="#collections"
           variants={fadeUp}
           initial="hidden"
-          animate={headerInView ? "visible" : "hidden"}
-          custom={0.3}
+          animate={isInView ? "visible" : "hidden"}
+          custom={0.55}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
           style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
             fontFamily: "var(--font-inter), Inter, sans-serif",
-            fontSize: "clamp(0.6rem, 0.75vw, 0.68rem)",
-            fontWeight: 700,
-            letterSpacing: "0.18em",
+            fontSize: "clamp(0.65rem, 0.8vw, 0.75rem)",
+            fontWeight: 600,
+            letterSpacing: "0.12em",
             textTransform: "uppercase",
             color: "var(--color-text-primary)",
             textDecoration: "none",
-            borderBottom: "1.5px solid var(--color-text-primary)",
-            paddingBottom: "2px",
-            marginBottom: "0.3rem",
+            border: "1.5px solid var(--color-text-primary)",
+            padding: "0.7rem 1.5rem",
+            borderRadius: "2px",
+            transition: "background-color 0.3s, color 0.3s",
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.backgroundColor = "var(--color-primary)";
+            el.style.color = "var(--color-text-white)";
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.backgroundColor = "transparent";
+            el.style.color = "var(--color-text-primary)";
           }}
         >
-          View All
+          {cta}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
         </motion.a>
       </div>
 
-      {/* ══════════════════════════════════════════
-          FIRST SECTION — big image left, 2 cards right
-      ══════════════════════════════════════════ */}
+      {/* Bottom — small detail image */}
       <div
-        ref={section1Ref}
-        className="w-full"
         style={{
-          margin: "0 auto",
+          paddingLeft: imageLeft ? "clamp(1.5rem, 3vw, 3rem)" : 0,
+          paddingRight: imageLeft ? 0 : "clamp(1.5rem, 3vw, 3rem)",
           display: "flex",
-          gap: "clamp(0.75rem, 1.5vw, 1.25rem)",
-          alignItems: "stretch",
+          justifyContent: imageLeft ? "flex-end" : "flex-start",
         }}
       >
-        {/* ══ LEFT — 50% wide, tall image ══ */}
         <motion.div
-          className="group"
-          style={{ width: "50%", flexShrink: 0, cursor: "pointer" }}
-          variants={imageReveal}
+          variants={smallImageReveal}
           initial="hidden"
-          animate={section1InView ? "visible" : "hidden"}
-          custom={0}
+          animate={isInView ? "visible" : "hidden"}
+          whileHover="hover"
+          style={{
+            width: "clamp(140px, 14vw, 200px)",
+            aspectRatio: "4 / 5",
+            overflow: "hidden",
+            position: "relative",
+          }}
         >
-          {/* Image with title overlaid */}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "85vh",
-              overflow: "hidden",
-            }}
-          >
+          {/* Background Hover Image */}
+          {hoverSmallImage && (
             <motion.img
-              src="/suits_formal_wear.jpg"
-              alt="Suits & Formal Wear"
+              src={hoverSmallImage}
+              alt={`Hover ${smallImageAlt}`}
               style={{
+                position: "absolute",
+                inset: 0,
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
                 objectPosition: "center top",
                 display: "block",
+                zIndex: 0,
               }}
-              whileHover={{ scale: 1.04, transition: { duration: 0.6, ease: "easeOut" } }}
-            />
-
-            {/* Bottom gradient */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.15) 40%, transparent 65%)",
-                pointerEvents: "none",
+              variants={{
+                hover: { scale: 1.08, transition: { duration: 0.6, ease: "easeOut" } }
               }}
             />
+          )}
 
-            {/* Title overlaid — bottom left */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: "clamp(1.25rem, 3vh, 2rem)",
-                left: "clamp(1rem, 2.5vw, 1.75rem)",
-                right: "clamp(1rem, 2.5vw, 1.75rem)",
-              }}
-            >
-              <div style={{ overflow: "hidden" }}>
-                <motion.h2
-                  variants={clipReveal}
-                  initial="hidden"
-                  animate={section1InView ? "visible" : "hidden"}
-                  custom={0.4}
-                  style={{
-                    fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                    fontSize: "clamp(1.5rem, 3vw, 2.6rem)",
-                    fontWeight: 700,
-                    color: "#ffffff",
-                    lineHeight: 1.08,
-                    margin: 0,
-                    letterSpacing: "-0.01em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Suits &amp;
-                  <br />
-                  Formal Wear
-                </motion.h2>
-              </div>
-            </div>
-          </div>
-
-          {/* Links BELOW the image */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate={section1InView ? "visible" : "hidden"}
-            custom={0.6}
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              flexWrap: "wrap",
-              alignItems: "center",
-              paddingTop: "clamp(0.6rem, 1.2vh, 0.875rem)",
-            }}
-          >
-            {["Suits (business & casual)", "Tuxedos", "Waistcoats"].map((s, i) => (
-              <span
-                key={s}
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-              >
-                {i > 0 && (
-                  <span
-                    style={{
-                      color: "rgba(0,0,0,0.3)",
-                      fontFamily: "var(--font-inter), Inter, sans-serif",
-                      fontSize: "clamp(0.58rem, 0.72vw, 0.68rem)",
-                    }}
-                  >
-                    |
-                  </span>
-                )}
-                <a
-                  href="#collections"
-                  style={{
-                    fontFamily: "var(--font-inter), Inter, sans-serif",
-                    fontSize: "clamp(0.58rem, 0.72vw, 0.68rem)",
-                    fontWeight: 500,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "rgba(0,0,0,0.6)",
-                    textDecoration: "none",
-                  }}
-                >
-                  {s}
-                </a>
-              </span>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* ══ RIGHT — 50% wide, cards at top, description at bottom ══ */}
-        <div
-          style={{
-            width: "50%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Cards row */}
-          <div
-            style={{
-              display: "flex",
-              gap: "clamp(0.75rem, 1.5vw, 1.25rem)",
-              alignItems: "flex-start",
-            }}
-          >
-            {[
-              {
-                image: "/formal_top.jpg",
-                label: "Tops",
-                sub: ["Shirts (formal & casual)", "Polo Shirts", "Knitted Sweaters"],
-              },
-              {
-                image: "/formal_bottoms.jpeg",
-                label: "Bottoms",
-                sub: ["Trousers (formal & casual)", "Chinos", "Shorts"],
-              },
-            ].map((card, idx) => (
-              <motion.div
-                key={card.label}
-                className="group"
-                style={{ flex: 1, cursor: "pointer" }}
-                variants={cardReveal}
-                initial="hidden"
-                animate={section1InView ? "visible" : "hidden"}
-                custom={0.2 + idx * 0.15}
-                whileHover={{ y: -5, transition: { duration: 0.3 } }}
-              >
-                {/* Image with label overlaid at bottom */}
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    aspectRatio: "3 / 4",
-                    overflow: "hidden",
-                    backgroundColor: "var(--color-bg-section)",
-                  }}
-                >
-                  <motion.img
-                    src={card.image}
-                    alt={card.label}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center top",
-                      display: "block",
-                    }}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: "easeOut" } }}
-                  />
-
-                  {/* Gradient + label */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: "clamp(0.75rem, 1.5vw, 1.25rem)",
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 80%)",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                        fontSize: "clamp(1rem, 1.8vw, 1.5rem)",
-                        fontWeight: 700,
-                        color: "#ffffff",
-                        margin: 0,
-                        letterSpacing: "0.05em",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {card.label}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Links BELOW image */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "0.4rem",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    paddingTop: "clamp(0.6rem, 1.2vh, 0.875rem)",
-                  }}
-                >
-                  {card.sub.map((s, i) => (
-                    <span
-                      key={s}
-                      style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
-                    >
-                      {i > 0 && (
-                        <span
-                          style={{
-                            color: "rgba(0,0,0,0.3)",
-                            fontFamily: "var(--font-inter), Inter, sans-serif",
-                            fontSize: "clamp(0.58rem, 0.72vw, 0.66rem)",
-                          }}
-                        >
-                          |
-                        </span>
-                      )}
-                      <a
-                        href="#collections"
-                        style={{
-                          fontFamily: "var(--font-inter), Inter, sans-serif",
-                          fontSize: "clamp(0.58rem, 0.72vw, 0.66rem)",
-                          fontWeight: 500,
-                          letterSpacing: "0.08em",
-                          textTransform: "uppercase",
-                          color: "rgba(0,0,0,0.55)",
-                          textDecoration: "none",
-                        }}
-                      >
-                        {s}
-                      </a>
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Description text — bottom */}
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate={section1InView ? "visible" : "hidden"}
-            custom={0.55}
-            style={{
-              fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "clamp(0.7rem, 0.88vw, 0.8rem)",
-              lineHeight: 1.85,
-              color: "rgba(0,0,0,0.55)",
-              margin: 0,
-            }}
-          >
-            Each piece in our collection reflects the perfect balance of modern
-            elegance and timeless style. Our carefully crafted suits, shirts, and
-            trousers are designed to enhance your natural confidence, while
-            providing the ultimate in comfort and fit. Explore our full range of
-            clothing — where every item is a step towards elevating your everyday
-            style.
-          </motion.p>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════
-          SECOND SECTION — 2 cards left, big image right
-      ══════════════════════════════════════════ */}
-      <div
-        ref={section2Ref}
-        className="w-full"
-        style={{
-          margin: "clamp(2rem, 4vh, 3.5rem) auto 0",
-          display: "flex",
-          gap: "clamp(0.75rem, 1.5vw, 1.25rem)",
-          alignItems: "stretch",
-        }}
-      >
-        {/* ══ LEFT — 50% wide, 2 cards + description ══ */}
-        <div
-          style={{
-            width: "50%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Cards row */}
-          <div
-            style={{
-              display: "flex",
-              gap: "clamp(0.75rem, 1.5vw, 1.25rem)",
-              alignItems: "flex-start",
-            }}
-          >
-            {[
-              {
-                image: "/cat-saree.png",
-                label: "Sarees",
-                sub: ["Cotton Sarees", "Silk Sarees", "Designer Sarees"],
-              },
-              {
-                image: "/cat-gown.png",
-                label: "Gowns",
-                sub: ["Evening Gowns", "Cocktail Dresses", "Ball Gowns"],
-              },
-            ].map((card, idx) => (
-              <motion.div
-                key={card.label}
-                className="group"
-                style={{ flex: 1, cursor: "pointer" }}
-                variants={cardReveal}
-                initial="hidden"
-                animate={section2InView ? "visible" : "hidden"}
-                custom={0.1 + idx * 0.15}
-                whileHover={{ y: -5, transition: { duration: 0.3 } }}
-              >
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    aspectRatio: "3 / 4",
-                    overflow: "hidden",
-                    backgroundColor: "var(--color-bg-section)",
-                  }}
-                >
-                  <motion.img
-                    src={card.image}
-                    alt={card.label}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "center top",
-                      display: "block",
-                    }}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.5, ease: "easeOut" } }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: "clamp(0.75rem, 1.5vw, 1.25rem)",
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 80%)",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                        fontSize: "clamp(1rem, 1.8vw, 1.5rem)",
-                        fontWeight: 700,
-                        color: "#ffffff",
-                        margin: 0,
-                        letterSpacing: "0.05em",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {card.label}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Links below */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "0.4rem",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                    paddingTop: "clamp(0.6rem, 1.2vh, 0.875rem)",
-                  }}
-                >
-                  {card.sub.map((s, i) => (
-                    <span
-                      key={s}
-                      style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
-                    >
-                      {i > 0 && (
-                        <span
-                          style={{
-                            color: "rgba(0,0,0,0.3)",
-                            fontFamily: "var(--font-inter), Inter, sans-serif",
-                            fontSize: "clamp(0.58rem, 0.72vw, 0.66rem)",
-                          }}
-                        >
-                          |
-                        </span>
-                      )}
-                      <a
-                        href="#collections"
-                        style={{
-                          fontFamily: "var(--font-inter), Inter, sans-serif",
-                          fontSize: "clamp(0.58rem, 0.72vw, 0.66rem)",
-                          fontWeight: 500,
-                          letterSpacing: "0.08em",
-                          textTransform: "uppercase",
-                          color: "rgba(0,0,0,0.55)",
-                          textDecoration: "none",
-                        }}
-                      >
-                        {s}
-                      </a>
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Description — bottom */}
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate={section2InView ? "visible" : "hidden"}
-            custom={0.45}
-            style={{
-              fontFamily: "var(--font-inter), Inter, sans-serif",
-              fontSize: "clamp(0.7rem, 0.88vw, 0.8rem)",
-              lineHeight: 1.85,
-              color: "rgba(0,0,0,0.55)",
-              margin: 0,
-            }}
-          >
-            From hand-woven cotton sarees to stunning evening gowns, every piece
-            in our collection is crafted to celebrate femininity and grace. Discover
-            timeless silhouettes designed for every woman and every occasion.
-          </motion.p>
-        </div>
-
-        {/* ══ RIGHT — 50% wide, big image ══ */}
-        <motion.div
-          className="group"
-          style={{ width: "50%", flexShrink: 0, cursor: "pointer" }}
-          variants={imageReveal}
-          initial="hidden"
-          animate={section2InView ? "visible" : "hidden"}
-          custom={0.1}
-        >
-          <div
+          {/* Foreground Main Image */}
+          <motion.img
+            src={smallImage}
+            alt={smallImageAlt}
             style={{
               position: "relative",
               width: "100%",
-              height: "85vh",
-              overflow: "hidden",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+              display: "block",
+              zIndex: 1,
             }}
-          >
-            <motion.img
-              src="/wedding_lehenga.jpg"
-              alt="Bridal Collection"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center top",
-                display: "block",
-              }}
-              whileHover={{ scale: 1.04, transition: { duration: 0.6, ease: "easeOut" } }}
-            />
-
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.15) 40%, transparent 65%)",
-                pointerEvents: "none",
-              }}
-            />
-
-            {/* Title overlaid — bottom left */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: "clamp(1.25rem, 3vh, 2rem)",
-                left: "clamp(1rem, 2.5vw, 1.75rem)",
-                right: "clamp(1rem, 2.5vw, 1.75rem)",
-              }}
-            >
-              <div style={{ overflow: "hidden" }}>
-                <motion.h2
-                  variants={clipReveal}
-                  initial="hidden"
-                  animate={section2InView ? "visible" : "hidden"}
-                  custom={0.5}
-                  style={{
-                    fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                    fontSize: "clamp(1.5rem, 3vw, 2.6rem)",
-                    fontWeight: 700,
-                    color: "#ffffff",
-                    lineHeight: 1.08,
-                    margin: 0,
-                    letterSpacing: "-0.01em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Bridal &amp;
-                  <br />
-                  Collection
-                </motion.h2>
-              </div>
-            </div>
-          </div>
-
-          {/* Links below image */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate={section2InView ? "visible" : "hidden"}
-            custom={0.65}
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              flexWrap: "wrap",
-              alignItems: "center",
-              paddingTop: "clamp(0.6rem, 1.2vh, 0.875rem)",
+            variants={{
+              hover: { opacity: hoverSmallImage ? 0 : 1, transition: { duration: 0.6, ease: "easeIn" } }
             }}
-          >
-            {["Lehengas", "Bridal Sarees", "Designer Wear"].map((s, i) => (
-              <span
-                key={s}
-                style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
-              >
-                {i > 0 && (
-                  <span
-                    style={{
-                      color: "rgba(0,0,0,0.3)",
-                      fontFamily: "var(--font-inter), Inter, sans-serif",
-                      fontSize: "clamp(0.58rem, 0.72vw, 0.68rem)",
-                    }}
-                  >
-                    |
-                  </span>
-                )}
-                <a
-                  href="#collections"
-                  style={{
-                    fontFamily: "var(--font-inter), Inter, sans-serif",
-                    fontSize: "clamp(0.58rem, 0.72vw, 0.68rem)",
-                    fontWeight: 500,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "rgba(0,0,0,0.6)",
-                    textDecoration: "none",
-                  }}
-                >
-                  {s}
-                </a>
-              </span>
-            ))}
-          </motion.div>
+          />
         </motion.div>
       </div>
-    </section>
+    </div>
+  );
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        display: "flex",
+        gap: 0,
+        alignItems: "stretch",
+        width: "100%",
+      }}
+    >
+      <>
+        {bigImageBlock}
+        {contentBlock}
+      </>
+    </div>
   );
 }

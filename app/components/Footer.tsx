@@ -53,38 +53,11 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             {/* Logo */}
             <div className="flex items-center gap-2.5">
-              <span
-                className="flex items-center justify-center rounded-full text-base font-bold shrink-0"
-                style={{
-                  width: 40,
-                  height: 40,
-                  backgroundColor: "var(--color-gold)",
-                  color: "var(--color-bg-footer)",
-                  fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                }}
-              >
-                A
-              </span>
-              <div className="leading-tight">
-                <span
-                  className="block text-base font-bold tracking-wide"
-                  style={{
-                    fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                    color: "var(--color-text-white)",
-                  }}
-                >
-                  AtoZ
-                </span>
-                <span
-                  className="block text-xs"
-                  style={{
-                    fontFamily: "var(--font-inter), Inter, sans-serif",
-                    color: "var(--color-gold)",
-                  }}
-                >
-                  Exclusive
-                </span>
-              </div>
+              <img
+                src="/logo.png"
+                alt="AtoZ Exclusive Logo"
+                className="h-20 w-auto object-contain"
+              />
             </div>
 
             <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>

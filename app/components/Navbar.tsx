@@ -18,36 +18,11 @@ export default function Navbar() {
 
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 no-underline">
-          <span
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-base font-bold"
-            style={{
-              backgroundColor: "var(--color-primary)",
-              color: "var(--color-text-white)",
-              fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-            }}
-          >
-            A
-          </span>
-          <span className="leading-tight">
-            <span
-              className="block text-base font-bold tracking-wide"
-              style={{
-                fontFamily: "var(--font-dm-sans), DM Sans, sans-serif",
-                color: "var(--color-primary)",
-              }}
-            >
-              AtoZ
-            </span>
-            <span
-              className="block text-xs"
-              style={{
-                fontFamily: "var(--font-inter), Inter, sans-serif",
-                color: "var(--color-text-secondary)",
-              }}
-            >
-              Exclusive
-            </span>
-          </span>
+          <img
+            src="/logo.png"
+            alt="AtoZ Exclusive Logo"
+            className="h-20 w-auto object-contain"
+          />
         </a>
 
         {/* Desktop nav links */}

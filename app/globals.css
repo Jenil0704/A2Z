@@ -10,67 +10,86 @@
    */
 
   /* ── Primary / Brand — Deep Espresso Noir ── */
-  --color-primary:         #1C1410;   /* Deep espresso — authority, craft */
-  --color-primary-dark:    #0F0C08;   /* Near noir — headers, footers      */
-  --color-primary-light:   #2E2318;   /* Warm dark brown — hover states     */
+  --color-primary: #1C1410;
+  /* Deep espresso — authority, craft */
+  --color-primary-dark: #0F0C08;
+  /* Near noir — headers, footers      */
+  --color-primary-light: #2E2318;
+  /* Warm dark brown — hover states     */
 
   /* ── Jewel Accent — Heritage Burgundy ── */
-  --color-jewel:           #6B1327;   /* Deep wine — Indian occasion/bridal */
-  --color-jewel-light:     #8B1A35;   /* Lighter wine — hover/accents       */
+  --color-jewel: #6B1327;
+  /* Deep wine — Indian occasion/bridal */
+  --color-jewel-light: #8B1A35;
+  /* Lighter wine — hover/accents       */
 
   /* ── CTA / Action — Champagne Gold ── */
-  --color-cta:             #B8860B;   /* Antique gold — premium CTAs        */
-  --color-cta-hover:       #9A7009;   /* Deeper gold on hover               */
+  --color-cta: #B8860B;
+  /* Antique gold — premium CTAs        */
+  --color-cta-hover: #9A7009;
+  /* Deeper gold on hover               */
 
   /* ── Backgrounds ── */
-  --color-bg-base:         #FEFCF7;   /* Pearl ivory — clean luxury canvas  */
-  --color-bg-section:      #F6F1E6;   /* Warm cream — alternating sections  */
-  --color-bg-dark:         #1A1108;   /* Rich espresso — featured sections  */
-  --color-bg-footer:       #0F0C08;   /* Deep noir — footer                 */
+  --color-bg-base: #FEFCF7;
+  /* Pearl ivory — clean luxury canvas  */
+  --color-bg-section: #F6F1E6;
+  /* Warm cream — alternating sections  */
+  --color-bg-dark: #1A1108;
+  /* Rich espresso — featured sections  */
+  --color-bg-footer: #0F0C08;
+  /* Deep noir — footer                 */
 
   /* ── Text ── */
-  --color-text-primary:    #1C1410;   /* Deep espresso — body copy          */
-  --color-text-secondary:  #5A5248;   /* Warm grey — supporting text        */
-  --color-text-light:      #EDE8DE;   /* Warm off-white — text on dark bg   */
-  --color-text-white:      #FEFCF7;   /* Pearl white — headlines on dark    */
-  --color-text-price:      #B8860B;   /* Gold — prices, highlights          */
+  --color-text-primary: #1C1410;
+  /* Deep espresso — body copy          */
+  --color-text-secondary: #5A5248;
+  /* Warm grey — supporting text        */
+  --color-text-light: #EDE8DE;
+  /* Warm off-white — text on dark bg   */
+  --color-text-white: #FEFCF7;
+  /* Pearl white — headlines on dark    */
+  --color-text-price: #B8860B;
+  /* Gold — prices, highlights          */
 
   /* ── Gold — Signature Luxury Accent ── */
-  --color-gold:            #C9A84C;   /* Champagne gold — ornaments, icons  */
-  --color-gold-light:      #E8C96A;   /* Pale gold — script text, dividers  */
-  --color-icon-bg:         #E8C96A;   /* Icon backgrounds                   */
+  --color-gold: #C9A84C;
+  /* Champagne gold — ornaments, icons  */
+  --color-gold-light: #E8C96A;
+  /* Pale gold — script text, dividers  */
+  --color-icon-bg: #E8C96A;
+  /* Icon backgrounds                   */
 
   /* ── Legacy aliases ── */
-  --background:            var(--color-bg-base);
-  --foreground:            var(--color-text-primary);
+  --background: var(--color-bg-base);
+  --foreground: var(--color-text-primary);
 }
 
 @theme inline {
-  --color-background:      var(--background);
-  --color-foreground:      var(--foreground);
-  --font-sans:             var(--font-inter);
-  --font-heading:          var(--font-dm-sans);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-dm-sans);
 
   /* Expose full palette to Tailwind utilities */
-  --color-primary:         var(--color-primary);
-  --color-primary-dark:    var(--color-primary-dark);
-  --color-primary-light:   var(--color-primary-light);
-  --color-jewel:           var(--color-jewel);
-  --color-jewel-light:     var(--color-jewel-light);
-  --color-cta:             var(--color-cta);
-  --color-cta-hover:       var(--color-cta-hover);
-  --color-bg-base:         var(--color-bg-base);
-  --color-bg-section:      var(--color-bg-section);
-  --color-bg-dark:         var(--color-bg-dark);
-  --color-bg-footer:       var(--color-bg-footer);
-  --color-text-primary:    var(--color-text-primary);
-  --color-text-secondary:  var(--color-text-secondary);
-  --color-text-light:      var(--color-text-light);
-  --color-text-white:      var(--color-text-white);
-  --color-text-price:      var(--color-text-price);
-  --color-gold:            var(--color-gold);
-  --color-gold-light:      var(--color-gold-light);
-  --color-icon-bg:         var(--color-icon-bg);
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
+  --color-jewel: var(--color-jewel);
+  --color-jewel-light: var(--color-jewel-light);
+  --color-cta: var(--color-cta);
+  --color-cta-hover: var(--color-cta-hover);
+  --color-bg-base: var(--color-bg-base);
+  --color-bg-section: var(--color-bg-section);
+  --color-bg-dark: var(--color-bg-dark);
+  --color-bg-footer: var(--color-bg-footer);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-light: var(--color-text-light);
+  --color-text-white: var(--color-text-white);
+  --color-text-price: var(--color-text-price);
+  --color-gold: var(--color-gold);
+  --color-gold-light: var(--color-gold-light);
+  --color-icon-bg: var(--color-icon-bg);
 }
 
 body {
@@ -79,7 +98,12 @@ body {
   font-family: var(--font-inter), Inter, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-dm-sans), "DM Sans", sans-serif;
 }
 
@@ -232,9 +256,17 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform 0.25s, opacity 0.25s;
 }
 
-.navbar__hamburger-line--top-open  { transform: translateY(7px) rotate(45deg); }
-.navbar__hamburger-line--mid-open  { opacity: 0; }
-.navbar__hamburger-line--bot-open  { transform: translateY(-7px) rotate(-45deg); }
+.navbar__hamburger-line--top-open {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar__hamburger-line--mid-open {
+  opacity: 0;
+}
+
+.navbar__hamburger-line--bot-open {
+  transform: translateY(-7px) rotate(-45deg);
+}
 
 /* Mobile menu */
 .navbar__mobile-menu {
@@ -263,22 +295,28 @@ h1, h2, h3, h4, h5, h6 {
 /* Bottom accent line */
 .navbar__accent-line {
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-primary) 20%,
-    var(--color-gold) 50%,
-    var(--color-primary) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--color-primary) 20%,
+      var(--color-gold) 50%,
+      var(--color-primary) 80%,
+      transparent 100%);
   opacity: 0.6;
 }
 
 /* Mobile breakpoint */
 @media (max-width: 768px) {
-  .navbar__links        { display: none; }
-  .navbar__hamburger    { display: flex; }
-  .navbar__mobile-menu  { display: flex; }
+  .navbar__links {
+    display: none;
+  }
+
+  .navbar__hamburger {
+    display: flex;
+  }
+
+  .navbar__mobile-menu {
+    display: flex;
+  }
 
   .navbar__icon-btn:not(:last-of-type) {
     display: none;
@@ -335,12 +373,10 @@ h1, h2, h3, h4, h5, h6 {
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0.30) 50%,
-    rgba(0, 0, 0, 0.60) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0.30) 50%,
+      rgba(0, 0, 0, 0.60) 100%);
   pointer-events: none;
 }
 
